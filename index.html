@@ -78,83 +78,31 @@
 
   <!-- География объектов -->
   <div class="section">
-    <div class="card">
+    <div class="card geo-card">
       <div class="section-label">География объектов</div>
-      <div class="geo-map" id="geo-map">
-        <svg viewBox="0 0 1000 600" class="map-svg" id="map-svg" xmlns="http://www.w3.org/2000/svg">
-          <!-- Grid lines -->
-          <line x1="0" y1="150" x2="1000" y2="150" stroke="var(--line)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.5"/>
-          <line x1="0" y1="300" x2="1000" y2="300" stroke="var(--line)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.5"/>
-          <line x1="0" y1="450" x2="1000" y2="450" stroke="var(--line)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.5"/>
-          <line x1="250" y1="0" x2="250" y2="600" stroke="var(--line)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.5"/>
-          <line x1="500" y1="0" x2="500" y2="600" stroke="var(--line)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.5"/>
-          <line x1="750" y1="0" x2="750" y2="600" stroke="var(--line)" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.5"/>
+      <div class="imap-wrap" id="imap">
+        <img class="imap-image" src="map-bg.png" alt="Карта объектов РАМВЕРК">
 
-          <!-- Russia outline (European part, simplified) -->
-          <path d="
-            M 160 65
-            C 175 50, 215 38, 260 35
-            C 330 28, 430 22, 540 28
-            C 620 32, 720 55, 800 100
-            C 840 125, 870 175, 890 240
-            C 905 300, 900 355, 880 405
-            C 860 445, 820 470, 780 482
-            C 740 492, 700 488, 660 475
-            C 630 464, 608 470, 580 478
-            C 548 488, 520 480, 495 462
-            C 472 448, 452 455, 430 460
-            C 400 468, 370 460, 345 440
-            C 315 416, 295 392, 278 365
-            C 262 338, 250 310, 242 280
-            C 234 252, 226 230, 218 210
-            C 208 188, 198 170, 190 155
-            C 180 135, 172 110, 165 85
-            C 162 72, 160 68, 160 65
-            Z"
-            fill="var(--accent)" fill-opacity="0.07"
-            stroke="var(--accent)" stroke-width="1.5" stroke-opacity="0.35"
-          />
-
-          <!-- Connection lines between cities -->
-          <line class="geo-line" x1="310" y1="148" x2="200" y2="210" stroke="var(--accent-2)" stroke-width="1" stroke-dasharray="6,4" opacity="0.3"/>
-          <line class="geo-line" x1="200" y1="210" x2="365" y2="290" stroke="var(--accent-2)" stroke-width="1" stroke-dasharray="6,4" opacity="0.3"/>
-          <line class="geo-line" x1="365" y1="290" x2="425" y2="320" stroke="var(--accent-2)" stroke-width="1" stroke-dasharray="6,4" opacity="0.3"/>
-
-          <!-- City markers -->
-          <g class="geo-city" data-city="karelia" style="cursor:pointer">
-            <circle cx="310" cy="148" r="20" fill="var(--accent)" fill-opacity="0" class="geo-hit"/>
-            <circle cx="310" cy="148" r="8" fill="var(--accent)" fill-opacity="0.15" class="geo-ring"/>
-            <circle cx="310" cy="148" r="5" fill="var(--accent)" stroke="#fff" stroke-width="2"/>
-            <text x="328" y="142" font-size="13" font-weight="600" fill="var(--ink)" opacity="0.8">Карелия</text>
-            <text x="328" y="158" font-size="10" fill="var(--muted)">Петрозаводск</text>
-          </g>
-
-          <g class="geo-city" data-city="spb" style="cursor:pointer">
-            <circle cx="200" cy="210" r="20" fill="var(--accent)" fill-opacity="0" class="geo-hit"/>
-            <circle cx="200" cy="210" r="8" fill="var(--accent)" fill-opacity="0.15" class="geo-ring"/>
-            <circle cx="200" cy="210" r="5" fill="var(--accent)" stroke="#fff" stroke-width="2"/>
-            <text x="170" y="245" font-size="13" font-weight="600" fill="var(--ink)" opacity="0.8">Санкт-Петербург</text>
-          </g>
-
-          <g class="geo-city" data-city="tver" style="cursor:pointer">
-            <circle cx="365" cy="290" r="20" fill="var(--accent)" fill-opacity="0" class="geo-hit"/>
-            <circle cx="365" cy="290" r="8" fill="var(--accent)" fill-opacity="0.15" class="geo-ring"/>
-            <circle cx="365" cy="290" r="5" fill="var(--accent)" stroke="#fff" stroke-width="2"/>
-            <text x="385" y="283" font-size="13" font-weight="600" fill="var(--ink)" opacity="0.8">Тверь</text>
-          </g>
-
-          <g class="geo-city" data-city="moscow" style="cursor:pointer">
-            <circle cx="425" cy="320" r="20" fill="var(--accent)" fill-opacity="0" class="geo-hit"/>
-            <circle cx="425" cy="320" r="10" fill="var(--accent)" fill-opacity="0.15" class="geo-ring"/>
-            <circle cx="425" cy="320" r="6" fill="var(--accent-2)" stroke="#fff" stroke-width="2.5"/>
-            <text x="448" y="314" font-size="14" font-weight="700" fill="var(--ink)">Москва</text>
-            <text x="448" y="332" font-size="10" fill="var(--muted)">Столица</text>
-          </g>
+        <svg class="imap-overlay" viewBox="0 0 1296 1000" preserveAspectRatio="none" aria-hidden="true">
+          <path class="imap-route" d="M421 250 C385 290 350 315 303 326"/>
+          <path class="imap-route" d="M303 326 C350 365 385 405 403 415"/>
+          <path class="imap-route" d="M403 415 C455 430 500 455 544 480"/>
+          <path class="imap-route" d="M421 250 C470 320 510 400 544 480"/>
+          <path class="imap-route" d="M303 326 C390 340 465 390 544 480"/>
         </svg>
-      </div>
-      <div class="geo-info" id="geo-info">
-        <div class="geo-info-title" id="geo-info-title">Наши объекты на карте</div>
-        <div class="geo-info-desc" id="geo-info-desc">Нажмите на город, чтобы узнать подробности</div>
+
+        <button class="imap-btn imap-karelia" data-city="karelia" aria-label="Карелия"></button>
+        <button class="imap-btn imap-spb" data-city="spb" aria-label="Санкт-Петербург"></button>
+        <button class="imap-btn imap-tver" data-city="tver" aria-label="Тверь"></button>
+        <button class="imap-btn imap-moscow active" data-city="moscow" aria-label="Москва"></button>
+
+        <div class="imap-info" id="imap-info">
+          <div class="imap-info-body">
+            <h3 id="imap-title">Москва</h3>
+            <p id="imap-text">Представительство компании, частные дома и загородные резиденции. Более 30 реализованных объектов.</p>
+          </div>
+          <button class="imap-close" id="imap-close" aria-label="Закрыть">×</button>
+        </div>
       </div>
     </div>
   </div>
