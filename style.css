@@ -1,4 +1,4 @@
-  :root{
+:root{
     --ink:#2b2d2e;
     --muted:#7a7d7e;
     --line:rgba(0,0,0,0.1);
@@ -359,3 +359,36 @@
     padding: 4px 12px;
   }
 }
+  /* ===== Geography Map ===== */
+  .geo-map{position:relative;width:100%;border-radius:14px;background:var(--card);overflow:hidden;margin-bottom:20px}
+  .map-svg{width:100%;height:auto;display:block}
+  .geo-city{transition:transform 0.3s ease}
+  .geo-city:hover .geo-ring{r:12;fill-opacity:0.25;transition:all 0.3s ease}
+  .geo-city.active .geo-ring{r:14;fill-opacity:0.3;transition:all 0.3s ease}
+  .geo-city .geo-ring{transition:all 0.3s ease}
+  .geo-hit{pointer-events:all}
+  @keyframes pulse-map{0%{r:8;opacity:0.3}100%{r:22;opacity:0}}
+  .geo-city.active circle:nth-child(2){animation:pulse-map 2s ease-out infinite}
+  .geo-info{text-align:center;padding:16px 0 0;min-height:80px;transition:opacity 0.3s ease}
+  .geo-info-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;transition:all 0.3s ease}
+  .geo-info-desc{font-size:13px;color:var(--muted);line-height:1.6;max-width:500px;margin:0 auto;transition:all 0.3s ease}
+
+  /* ===== Reviews Slider ===== */
+  .reviews-slider{overflow:hidden;position:relative;margin-bottom:20px}
+  .review-track{display:flex;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
+  .review-item{min-width:100%;padding:20px;box-sizing:border-box}
+  .review-content{background:var(--card);border-radius:16px;padding:32px;position:relative;max-width:680px;margin:0 auto}
+  .review-content::before{content:'\201C';position:absolute;top:8px;left:20px;font-family:Georgia,serif;font-size:80px;line-height:1;color:var(--accent);opacity:0.15;pointer-events:none}
+  .review-text{font-size:16px;line-height:1.8;color:var(--ink);margin-bottom:20px;position:relative;z-index:1;font-style:italic}
+  .review-author{display:flex;align-items:center;gap:14px}
+  .review-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;flex-shrink:0}
+  .review-meta .review-name{font-size:14px;font-weight:700;color:var(--ink)}
+  .review-meta .review-role{font-size:12px;color:var(--muted);margin-top:2px}
+  .review-stars{display:flex;gap:2px;margin-bottom:12px}
+  .review-stars i{color:var(--accent-2);font-size:16px}
+  .review-nav{display:flex;align-items:center;justify-content:center;gap:16px}
+  .review-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s ease;font-size:18px}
+  .review-btn:hover{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
+  .review-dots{display:flex;gap:8px}
+  .review-dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);cursor:pointer;transition:all 0.3s ease;padding:0}
+  .review-dots button.active{background:var(--accent);width:24px;border-radius:4px}
