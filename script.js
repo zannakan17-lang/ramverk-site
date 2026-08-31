@@ -329,3 +329,120 @@ document.querySelectorAll('.stat').forEach(stat => {
     setTimeout(() => { labelEl.textContent = original; labelEl.classList.remove('breakdown'); labelEl.style.opacity = '1'; }, 150);
   });
 });
+// ===== INTERACTIVE MAP (SVG) =====
+const geoData = {
+  karelia: { title: 'Карелия · Видлица', desc: 'Глэмпинг-курорт «Точка на карте» на берегу Ладожского озера. Модульные дома, панорамное остекление, минимальное воздействие на природу. 12 объектов.' },
+  spb: { title: 'Санкт-Петербург', desc: 'Рекреационные и промышленные объекты: курорт «Времена года» в Игоре, складской комплекс А+ в Шушарах, резиденция в Мельниково. Более 40 объектов.' },
+  tver: { title: 'Тверь', desc: 'Коттеджный посёлок премиум-класса и частные резиденции. Деревянное домостроение из клеёного бруса, авторские проекты. 8 объектов.' },
+  moscow: { title: 'Москва', desc: 'Представительство компании и ключевые объекты: частные дома, загородные резиденции, коммерческая недвижимость. Более 30 объектов.' }
+};
+
+const geoInfoTitle = document.getElementById('geo-info-title');
+const geoInfoDesc = document.getElementById('geo-info-desc');
+
+document.querySelectorAll('.geo-city').forEach(city => {
+  city.addEventListener('click', () => {
+    const id = city.getAttribute('data-city');
+    const data = geoData[id];
+    if (!data) return;
+
+    document.querySelectorAll('.geo-city').forEach(c => c.classList.remove('active'));
+    city.classList.add('active');
+
+    geoInfoTitle.style.opacity = '0';
+    geoInfoDesc.style.opacity = '0';
+    setTimeout(() => {
+      geoInfoTitle.textContent = data.title;
+      geoInfoDesc.textContent = data.desc;
+      geoInfoTitle.style.opacity = '1';
+      geoInfoDesc.style.opacity = '1';
+    }, 200);
+  });
+});
+
+// Re-observe new cards for scroll-in animation (fix for desktop)
+document.querySelectorAll('.card').forEach(s => {
+  if (!s.classList.contains('visible')) {
+    io.observe(s);
+  }
+});
+
+// ===== REVIEWS SLIDER =====
+const reviewsData = [
+  { name: 'Алексей Петров', role: 'CEO, Игора Ресорт', text: 'Команда РАМВЕРК показала исключительный профессионализм. Каждая деталь продумана, сроки соблюдены, качество безупречное. Наш курорт стал визитной карточкой региона.', stars: 5 },
+  { name: 'Мария Иванова', role: 'Директор, НонТиссе', text: 'Работаем с РАМВЕРК уже третий проект подряд. Ценим их внимание к деталям и способность находить нестандартные инженерные решения без компромиссов.', stars: 5 },
+  { name: 'Дмитрий Сидоров', role: 'Частный заказчик', text: 'Строительство дома — это всегда стресс. Но не с этой командой. Всё было прозрачно, понятно и вовремя. Результат превзошёл ожидания. Живём и радуемся.', stars: 5 },
+  { name: 'Карим Усманов', role: 'Инвестор, Silk Road', text: 'Международный проект с множеством сложностей — логистика, климат, местные стандарты. РАМВЕРК справились блестяще. Рекомендую без оговорок.', stars: 5 },
+  { name: 'Ольга Новикова', role: 'Архитектор-партнёр', text: 'Как архитектор, я знаю цену хорошему подрядчику. РАМВЕРК — это та редкая команда, которая реализует замысел без потери качества на каждом этапе.', stars: 5 }
+];
+
+const reviewTrack = document.getElementById('review-track');
+const reviewDotsEl = document.getElementById('review-dots');
+let currentReview = 0;
+let reviewAutoplay = null;
+
+function renderReviews() {
+  reviewTrack.innerHTML = '';
+  reviewDotsEl.innerHTML = '';
+  reviewsData.forEach((r, i) => {
+    const item = document.createElement('div');
+    item.className = 'review-item';
+    const starsHtml = Array(r.stars).fill('<i class="ti ti-star-filled"></i>').join('');
+    const initials = r.name.split(' ').map(w => w[0]).join('');
+    item.innerHTML = `
+      <div class="review-content">
+        <div class="review-stars">${starsHtml}</div>
+        <div class="review-text">${r.text}</div>
+        <div class="review-author">
+          <div class="review-avatar">${initials}</div>
+          <div class="review-meta">
+            <div class="review-name">${r.name}</div>
+            <div class="review-role">${r.role}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    reviewTrack.appendChild(item);
+
+    const dot = document.createElement('button');
+    if (i === 0) dot.classList.add('active');
+    dot.onclick = () => goToReview(i);
+    reviewDotsEl.appendChild(dot);
+  });
+  startReviewAutoplay();
+}
+
+function goToReview(i) {
+  currentReview = ((i % reviewsData.length) + reviewsData.length) % reviewsData.length;
+  reviewTrack.style.transform = `translateX(-${currentReview * 100}%)`;
+  reviewDotsEl.querySelectorAll('button').forEach((d, idx) => d.classList.toggle('active', idx === currentReview));
+}
+
+function startReviewAutoplay() {
+  clearInterval(reviewAutoplay);
+  reviewAutoplay = setInterval(() => goToReview(currentReview + 1), 5000);
+}
+
+document.getElementById('review-prev').onclick = () => { goToReview(currentReview - 1); startReviewAutoplay(); };
+document.getElementById('review-next').onclick = () => { goToReview(currentReview + 1); startReviewAutoplay(); };
+
+const reviewsSlider = document.getElementById('reviews-slider');
+reviewsSlider.addEventListener('mouseenter', () => clearInterval(reviewAutoplay));
+reviewsSlider.addEventListener('mouseleave', startReviewAutoplay);
+
+// Touch support for reviews
+let reviewTouchX = 0;
+reviewsSlider.addEventListener('touchstart', e => { reviewTouchX = e.touches[0].clientX; });
+reviewsSlider.addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].clientX - reviewTouchX;
+  if (diff > 40) { goToReview(currentReview - 1); startReviewAutoplay(); }
+  else if (diff < -40) { goToReview(currentReview + 1); startReviewAutoplay(); }
+});
+
+renderReviews();
+
+// Hover cursor for review nav buttons and map cities
+document.querySelectorAll('.review-btn, .review-dots button, .geo-city').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+});
