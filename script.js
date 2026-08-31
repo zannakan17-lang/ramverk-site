@@ -329,38 +329,55 @@ document.querySelectorAll('.stat').forEach(stat => {
     setTimeout(() => { labelEl.textContent = original; labelEl.classList.remove('breakdown'); labelEl.style.opacity = '1'; }, 150);
   });
 });
-// ===== INTERACTIVE MAP (SVG) =====
-const geoData = {
-  karelia: { title: 'Карелия · Видлица', desc: 'Глэмпинг-курорт «Точка на карте» на берегу Ладожского озера. Модульные дома, панорамное остекление, минимальное воздействие на природу. 12 объектов.' },
-  spb: { title: 'Санкт-Петербург', desc: 'Рекреационные и промышленные объекты: курорт «Времена года» в Игоре, складской комплекс А+ в Шушарах, резиденция в Мельниково. Более 40 объектов.' },
-  tver: { title: 'Тверь', desc: 'Коттеджный посёлок премиум-класса и частные резиденции. Деревянное домостроение из клеёного бруса, авторские проекты. 8 объектов.' },
-  moscow: { title: 'Москва', desc: 'Представительство компании и ключевые объекты: частные дома, загородные резиденции, коммерческая недвижимость. Более 30 объектов.' }
+// ===== INTERACTIVE IMAGE MAP =====
+const imapCities = {
+  karelia: {
+    title: 'Карелия — Петрозаводск',
+    text: 'Глэмпинг-курорт «Точка на карте» на берегу Ладожского озера. Модульные дома с панорамным остеклением, минимальное воздействие на природу. 12 объектов.'
+  },
+  spb: {
+    title: 'Санкт-Петербург',
+    text: 'Рекреационные и промышленные объекты: курорт «Времена года» в Игоре, складской комплекс А+ в Шушарах, резиденция в Мельниково. Более 40 объектов.'
+  },
+  tver: {
+    title: 'Тверь',
+    text: 'Коттеджный посёлок премиум-класса и частные резиденции. Деревянное домостроение из клеёного бруса, авторские проекты. 8 объектов.'
+  },
+  moscow: {
+    title: 'Москва',
+    text: 'Представительство компании и ключевые проекты: частные дома, загородные резиденции, коммерческая недвижимость. Более 30 реализованных объектов.'
+  }
 };
 
-const geoInfoTitle = document.getElementById('geo-info-title');
-const geoInfoDesc = document.getElementById('geo-info-desc');
+const imapInfo = document.getElementById('imap-info');
+const imapTitle = document.getElementById('imap-title');
+const imapText = document.getElementById('imap-text');
+const imapClose = document.getElementById('imap-close');
+const imapButtons = document.querySelectorAll('.imap-btn');
 
-document.querySelectorAll('.geo-city').forEach(city => {
-  city.addEventListener('click', () => {
-    const id = city.getAttribute('data-city');
-    const data = geoData[id];
-    if (!data) return;
+function showImapCity(key) {
+  const city = imapCities[key];
+  if (!city) return;
+  imapButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.city === key));
+  imapInfo.classList.add('hidden');
+  setTimeout(() => {
+    imapTitle.textContent = city.title;
+    imapText.textContent = city.text;
+    imapInfo.classList.remove('hidden');
+  }, 200);
+}
 
-    document.querySelectorAll('.geo-city').forEach(c => c.classList.remove('active'));
-    city.classList.add('active');
-
-    geoInfoTitle.style.opacity = '0';
-    geoInfoDesc.style.opacity = '0';
-    setTimeout(() => {
-      geoInfoTitle.textContent = data.title;
-      geoInfoDesc.textContent = data.desc;
-      geoInfoTitle.style.opacity = '1';
-      geoInfoDesc.style.opacity = '1';
-    }, 200);
-  });
+imapButtons.forEach(btn => {
+  btn.addEventListener('click', () => showImapCity(btn.dataset.city));
+});
+imapClose.addEventListener('click', () => {
+  imapInfo.classList.add('hidden');
+  imapButtons.forEach(btn => btn.classList.remove('active'));
 });
 
-// Re-observe new cards for scroll-in animation (fix for desktop)
+showImapCity('moscow');
+
+// Re-observe all cards for scroll-in animation (fix for desktop)
 document.querySelectorAll('.card').forEach(s => {
   if (!s.classList.contains('visible')) {
     io.observe(s);
@@ -442,7 +459,7 @@ reviewsSlider.addEventListener('touchend', e => {
 renderReviews();
 
 // Hover cursor for review nav buttons and map cities
-document.querySelectorAll('.review-btn, .review-dots button, .geo-city').forEach(el => {
+document.querySelectorAll('.review-btn, .review-dots button, .imap-btn, .imap-close').forEach(el => {
   el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
   el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
 });
