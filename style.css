@@ -367,12 +367,12 @@
 .map-subtitle{margin:0;color:var(--muted);font-size:13px;line-height:1.5;max-width:540px}
 .map-legend{font-size:11px;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:7px}
 .map-legend span{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 14%,transparent)}
-.interactive-map{position:relative;isolation:isolate;overflow:hidden;border-radius:18px;background:#fbfcfb;aspect-ratio:1200/650;min-height:520px;border:1px solid rgba(22,59,50,.07)}
+.interactive-map{position:relative;isolation:isolate;overflow:hidden;border-radius:18px;background:#fbfcfb;aspect-ratio:1200/700;min-height:560px;border:1px solid rgba(22,59,50,.07)}
 .russia-map{position:absolute;inset:0;width:100%;height:100%;display:block}
-.russia-map .russia-shape{fill:#e9eeeb;stroke:#285f52;stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round}
-.russia-map .map-routes{fill:none;stroke:#176653;stroke-width:2.1;stroke-dasharray:5 7;stroke-linecap:round;opacity:.8;animation:mapDash 2s linear infinite}
-.russia-map .svg-city{cursor:pointer;outline:none}
-.russia-map .city-halo{fill:rgba(31,115,95,.10);stroke:none;transition:all .25s ease}
+.russia-map .russia-shape{fill:#e9eeeb;stroke:#285f52;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.russia-map .map-routes{fill:none;stroke:#176653;stroke-width:1.8;stroke-dasharray:5 7;stroke-linecap:round;opacity:.8;animation:mapDash 2s linear infinite}
+.russia-map .svg-city{cursor:pointer;outline:none}\n.russia-map .map-leaders{fill:none;stroke:rgba(40,95,82,.34);stroke-width:1.2;stroke-dasharray:2 5;stroke-linecap:round}
+.russia-map .city-halo{fill:rgba(31,115,95,.09);stroke:none;transition:all .25s ease}
 .russia-map .city-ring{fill:#fff;stroke:#1f735f;stroke-width:2.5;transition:all .25s ease}
 .russia-map .city-dot{fill:#1f735f;transition:all .25s ease}
 .russia-map .city-label rect{fill:rgba(255,255,255,.96);stroke:rgba(22,59,50,.10);filter:drop-shadow(0 5px 10px rgba(22,59,50,.10));transition:all .25s ease}
