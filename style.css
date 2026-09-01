@@ -367,31 +367,30 @@
 .map-subtitle{margin:0;color:var(--muted);font-size:13px;line-height:1.5;max-width:540px}
 .map-legend{font-size:11px;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:7px}
 .map-legend span{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 14%,transparent)}
-.interactive-map{position:relative;isolation:isolate;overflow:hidden;border-radius:18px;background:#f7faf8;aspect-ratio:1200/650;min-height:520px;border:1px solid rgba(22,59,50,.08)}
+.interactive-map{position:relative;isolation:isolate;overflow:hidden;border-radius:18px;background:#fbfcfb;aspect-ratio:1200/650;min-height:520px;border:1px solid rgba(22,59,50,.07)}
 .russia-map{position:absolute;inset:0;width:100%;height:100%;display:block}
-.russia-map .map-meridians{stroke:rgba(37,99,86,.08);stroke-width:1}
-.russia-map .russia-shape{fill:#eef4f0;stroke:#2c806b;stroke-width:2.2;stroke-linejoin:round}
-.russia-map .map-regions{fill:none;stroke:rgba(37,99,86,.10);stroke-width:1.2;stroke-linecap:round}
-.russia-map .map-routes{fill:none;stroke:#176653;stroke-width:2.5;stroke-dasharray:7 8;stroke-linecap:round;animation:mapDash 2s linear infinite}
-.russia-map .map-coords{fill:#718078;font-size:12px;letter-spacing:.04em}
+.russia-map .russia-shape{fill:#e9eeeb;stroke:#285f52;stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round}
+.russia-map .map-routes{fill:none;stroke:#176653;stroke-width:2.1;stroke-dasharray:5 7;stroke-linecap:round;opacity:.8;animation:mapDash 2s linear infinite}
 .russia-map .svg-city{cursor:pointer;outline:none}
-.russia-map .city-ring{fill:#fff;stroke:#1f735f;stroke-width:4;transition:all .25s ease}
+.russia-map .city-halo{fill:rgba(31,115,95,.10);stroke:none;transition:all .25s ease}
+.russia-map .city-ring{fill:#fff;stroke:#1f735f;stroke-width:2.5;transition:all .25s ease}
 .russia-map .city-dot{fill:#1f735f;transition:all .25s ease}
-.russia-map .city-label rect{fill:rgba(255,255,255,.96);stroke:rgba(22,59,50,.10);filter:drop-shadow(0 6px 12px rgba(22,59,50,.10));transition:all .25s ease}
-.russia-map .city-label text{fill:#163b32;font:700 16px Inter,Arial,sans-serif}
-.russia-map .city-label .sub{fill:#718078;font:500 12px Inter,Arial,sans-serif}
-.russia-map .svg-city:hover .city-ring,.russia-map .svg-city:focus .city-ring{transform-box:fill-box;transform-origin:center;transform:scale(1.15)}
+.russia-map .city-label rect{fill:rgba(255,255,255,.96);stroke:rgba(22,59,50,.10);filter:drop-shadow(0 5px 10px rgba(22,59,50,.10));transition:all .25s ease}
+.russia-map .city-label text{fill:#163b32;font:700 14px Inter,Arial,sans-serif}
+.russia-map .city-label .sub{fill:#718078;font:500 11px Inter,Arial,sans-serif}
+.russia-map .svg-city:hover .city-halo,.russia-map .svg-city:focus .city-halo{transform-box:fill-box;transform-origin:center;transform:scale(1.25)}
+.russia-map .svg-city:hover .city-ring,.russia-map .svg-city:focus .city-ring{transform-box:fill-box;transform-origin:center;transform:scale(1.12)}
 .russia-map .svg-city:hover .city-dot,.russia-map .svg-city:focus .city-dot{transform-box:fill-box;transform-origin:center;transform:scale(1.15)}
 .russia-map .svg-city.active .city-ring{animation:mapPulseSvg 1.6s ease-out infinite;stroke:#176653}
 .russia-map .svg-city.active .city-dot{fill:#176653}
-.russia-map .city-moscow-svg .city-ring{r:25;stroke-width:5}
-.russia-map .city-moscow-svg .city-dot{r:11;fill:var(--accent)}
+.russia-map .city-moscow-svg .city-ring{stroke-width:3.5}
+.russia-map .city-moscow-svg .city-dot{fill:var(--accent)}
 .russia-map .city-moscow-svg.active .city-ring{animation:mapPulseMoscow 1.6s ease-out infinite}
-@keyframes mapDash{to{stroke-dashoffset:-30}}
-@keyframes mapPulseSvg{0%{stroke-opacity:1;stroke-width:4}70%{stroke-opacity:.2;stroke-width:9}100%{stroke-opacity:0;stroke-width:9}}
-@keyframes mapPulseMoscow{0%{stroke-opacity:1;stroke-width:5}70%{stroke-opacity:.15;stroke-width:11}100%{stroke-opacity:0;stroke-width:11}}
-.map-info{position:absolute;z-index:4;left:24px;right:24px;bottom:24px;display:flex;justify-content:space-between;gap:18px;padding:18px 20px;border-radius:14px;background:rgba(21,35,31,.90);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;box-shadow:0 16px 40px rgba(0,0,0,.16);transition:opacity .25s ease,transform .25s ease}
-.map-info.is-hidden{opacity:0;transform:translateY(16px);pointer-events:none}
-.map-info-copy{min-width:0}.map-info-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.65}.map-info h3{margin:4px 0 4px;font-size:21px}.map-info p{margin:0;color:rgba(255,255,255,.78);font-size:12px;line-height:1.5;max-width:700px}
-.map-info-close{width:30px;height:30px;flex:0 0 30px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:transparent;color:#fff;font-size:19px;line-height:1;cursor:pointer}
-@media (max-width:768px){.map-card{padding:22px 16px}.map-head{align-items:flex-start}.map-title{font-size:22px}.map-legend{display:none}.interactive-map{aspect-ratio:4/3;min-height:0}.russia-map .map-coords{font-size:9px}.russia-map .city-label text{font-size:12px}.russia-map .city-label .sub{font-size:9px}.map-info{left:12px;right:12px;bottom:12px;padding:13px 14px}.map-info h3{font-size:18px}.map-info p{font-size:11px}}
+@keyframes mapDash{to{stroke-dashoffset:-24}}
+@keyframes mapPulseSvg{0%{stroke-opacity:1;stroke-width:2.5}70%{stroke-opacity:.2;stroke-width:7}100%{stroke-opacity:0;stroke-width:7}}
+@keyframes mapPulseMoscow{0%{stroke-opacity:1;stroke-width:3.5}70%{stroke-opacity:.15;stroke-width:9}100%{stroke-opacity:0;stroke-width:9}}
+.map-info{position:absolute;z-index:4;right:18px;bottom:18px;width:min(360px,calc(100% - 36px));display:flex;justify-content:space-between;gap:14px;padding:15px 16px;border-radius:13px;background:rgba(21,35,31,.90);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;box-shadow:0 16px 40px rgba(0,0,0,.14);transition:opacity .25s ease,transform .25s ease}
+.map-info.is-hidden{opacity:0;transform:translateY(12px);pointer-events:none}
+.map-info-copy{min-width:0}.map-info-kicker{font-size:9px;text-transform:uppercase;letter-spacing:.08em;opacity:.65}.map-info h3{margin:3px 0 3px;font-size:19px}.map-info p{margin:0;color:rgba(255,255,255,.78);font-size:11px;line-height:1.45}
+.map-info-close{width:28px;height:28px;flex:0 0 28px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:transparent;color:#fff;font-size:18px;line-height:1;cursor:pointer}
+@media (max-width:768px){.map-card{padding:22px 16px}.map-head{align-items:flex-start}.map-title{font-size:22px}.map-legend{display:none}.interactive-map{aspect-ratio:4/3;min-height:0}.russia-map .city-label text{font-size:11px}.russia-map .city-label .sub{font-size:9px}.map-info{right:12px;bottom:12px;width:calc(100% - 24px);padding:12px 13px}.map-info h3{font-size:17px}.map-info p{font-size:10px}}
