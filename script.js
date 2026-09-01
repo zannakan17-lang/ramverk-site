@@ -329,137 +329,48 @@ document.querySelectorAll('.stat').forEach(stat => {
     setTimeout(() => { labelEl.textContent = original; labelEl.classList.remove('breakdown'); labelEl.style.opacity = '1'; }, 150);
   });
 });
-// ===== INTERACTIVE IMAGE MAP =====
-const imapCities = {
-  karelia: {
-    title: 'Карелия — Петрозаводск',
-    text: 'Глэмпинг-курорт «Точка на карте» на берегу Ладожского озера. Модульные дома с панорамным остеклением, минимальное воздействие на природу. 12 объектов.'
-  },
-  spb: {
-    title: 'Санкт-Петербург',
-    text: 'Рекреационные и промышленные объекты: курорт «Времена года» в Игоре, складской комплекс А+ в Шушарах, резиденция в Мельниково. Более 40 объектов.'
-  },
-  tver: {
-    title: 'Тверь',
-    text: 'Коттеджный посёлок премиум-класса и частные резиденции. Деревянное домостроение из клеёного бруса, авторские проекты. 8 объектов.'
-  },
-  moscow: {
-    title: 'Москва',
-    text: 'Представительство компании и ключевые проекты: частные дома, загородные резиденции, коммерческая недвижимость. Более 30 реализованных объектов.'
-  }
+
+// ===== Интерактивная карта =====
+const mapCities = {
+  karelia: { kicker:'Карелия · Петрозаводск', title:'Петрозаводск', text:'Северо-западное направление: проекты в природном окружении, рекреационные и частные объекты.' },
+  spb: { kicker:'Санкт-Петербург', title:'Санкт-Петербург', text:'Один из основных регионов работы: частное строительство, инженерия и объекты высокого класса.' },
+  tver: { kicker:'Тверь', title:'Тверь', text:'Направление между Москвой и Санкт-Петербургом — частные и рекреационные проекты в регионе.' },
+  moscow: { kicker:'Москва · столица', title:'Москва', text:'Крупнейший центр нашей проектной и инженерной работы и ключевая точка присутствия.' }
 };
+const mapRoot = document.getElementById('interactive-map');
+if (mapRoot) {
+  const mapInfo = document.getElementById('map-info');
+  const mapKicker = document.getElementById('map-info-kicker');
+  const mapTitle = document.getElementById('map-info-title');
+  const mapText = document.getElementById('map-info-text');
+  const mapClose = document.getElementById('map-info-close');
+  const mapButtons = mapRoot.querySelectorAll('.svg-city');
 
-const imapInfo = document.getElementById('imap-info');
-const imapTitle = document.getElementById('imap-title');
-const imapText = document.getElementById('imap-text');
-const imapClose = document.getElementById('imap-close');
-const imapButtons = document.querySelectorAll('.imap-btn');
-
-function showImapCity(key) {
-  const city = imapCities[key];
-  if (!city) return;
-  imapButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.city === key));
-  imapInfo.classList.add('hidden');
-  setTimeout(() => {
-    imapTitle.textContent = city.title;
-    imapText.textContent = city.text;
-    imapInfo.classList.remove('hidden');
-  }, 200);
-}
-
-imapButtons.forEach(btn => {
-  btn.addEventListener('click', () => showImapCity(btn.dataset.city));
-});
-imapClose.addEventListener('click', () => {
-  imapInfo.classList.add('hidden');
-  imapButtons.forEach(btn => btn.classList.remove('active'));
-});
-
-showImapCity('moscow');
-
-// Re-observe all cards for scroll-in animation (fix for desktop)
-document.querySelectorAll('.card').forEach(s => {
-  if (!s.classList.contains('visible')) {
-    io.observe(s);
+  function selectMapCity(key) {
+    const city = mapCities[key];
+    if (!city) return;
+    mapButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.mapCity === key));
+    mapInfo.classList.add('is-hidden');
+    setTimeout(() => {
+      mapKicker.textContent = city.kicker;
+      mapTitle.textContent = city.title;
+      mapText.textContent = city.text;
+      mapInfo.classList.remove('is-hidden');
+    }, 120);
   }
-});
 
-// ===== REVIEWS SLIDER =====
-const reviewsData = [
-  { name: 'Алексей Петров', role: 'CEO, Игора Ресорт', text: 'Команда РАМВЕРК показала исключительный профессионализм. Каждая деталь продумана, сроки соблюдены, качество безупречное. Наш курорт стал визитной карточкой региона.', stars: 5 },
-  { name: 'Мария Иванова', role: 'Директор, НонТиссе', text: 'Работаем с РАМВЕРК уже третий проект подряд. Ценим их внимание к деталям и способность находить нестандартные инженерные решения без компромиссов.', stars: 5 },
-  { name: 'Дмитрий Сидоров', role: 'Частный заказчик', text: 'Строительство дома — это всегда стресс. Но не с этой командой. Всё было прозрачно, понятно и вовремя. Результат превзошёл ожидания. Живём и радуемся.', stars: 5 },
-  { name: 'Карим Усманов', role: 'Инвестор, Silk Road', text: 'Международный проект с множеством сложностей — логистика, климат, местные стандарты. РАМВЕРК справились блестяще. Рекомендую без оговорок.', stars: 5 },
-  { name: 'Ольга Новикова', role: 'Архитектор-партнёр', text: 'Как архитектор, я знаю цену хорошему подрядчику. РАМВЕРК — это та редкая команда, которая реализует замысел без потери качества на каждом этапе.', stars: 5 }
-];
-
-const reviewTrack = document.getElementById('review-track');
-const reviewDotsEl = document.getElementById('review-dots');
-let currentReview = 0;
-let reviewAutoplay = null;
-
-function renderReviews() {
-  reviewTrack.innerHTML = '';
-  reviewDotsEl.innerHTML = '';
-  reviewsData.forEach((r, i) => {
-    const item = document.createElement('div');
-    item.className = 'review-item';
-    const starsHtml = Array(r.stars).fill('<i class="ti ti-star-filled"></i>').join('');
-    const initials = r.name.split(' ').map(w => w[0]).join('');
-    item.innerHTML = `
-      <div class="review-content">
-        <div class="review-stars">${starsHtml}</div>
-        <div class="review-text">${r.text}</div>
-        <div class="review-author">
-          <div class="review-avatar">${initials}</div>
-          <div class="review-meta">
-            <div class="review-name">${r.name}</div>
-            <div class="review-role">${r.role}</div>
-          </div>
-        </div>
-      </div>
-    `;
-    reviewTrack.appendChild(item);
-
-    const dot = document.createElement('button');
-    if (i === 0) dot.classList.add('active');
-    dot.onclick = () => goToReview(i);
-    reviewDotsEl.appendChild(dot);
+  mapButtons.forEach(btn => {
+    btn.addEventListener('click', () => selectMapCity(btn.dataset.mapCity));
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectMapCity(btn.dataset.mapCity);
+      }
+    });
   });
-  startReviewAutoplay();
+  mapClose.addEventListener('click', () => {
+    mapInfo.classList.add('is-hidden');
+    mapButtons.forEach(btn => btn.classList.remove('active'));
+  });
+  selectMapCity('moscow');
 }
-
-function goToReview(i) {
-  currentReview = ((i % reviewsData.length) + reviewsData.length) % reviewsData.length;
-  reviewTrack.style.transform = `translateX(-${currentReview * 100}%)`;
-  reviewDotsEl.querySelectorAll('button').forEach((d, idx) => d.classList.toggle('active', idx === currentReview));
-}
-
-function startReviewAutoplay() {
-  clearInterval(reviewAutoplay);
-  reviewAutoplay = setInterval(() => goToReview(currentReview + 1), 5000);
-}
-
-document.getElementById('review-prev').onclick = () => { goToReview(currentReview - 1); startReviewAutoplay(); };
-document.getElementById('review-next').onclick = () => { goToReview(currentReview + 1); startReviewAutoplay(); };
-
-const reviewsSlider = document.getElementById('reviews-slider');
-reviewsSlider.addEventListener('mouseenter', () => clearInterval(reviewAutoplay));
-reviewsSlider.addEventListener('mouseleave', startReviewAutoplay);
-
-// Touch support for reviews
-let reviewTouchX = 0;
-reviewsSlider.addEventListener('touchstart', e => { reviewTouchX = e.touches[0].clientX; });
-reviewsSlider.addEventListener('touchend', e => {
-  const diff = e.changedTouches[0].clientX - reviewTouchX;
-  if (diff > 40) { goToReview(currentReview - 1); startReviewAutoplay(); }
-  else if (diff < -40) { goToReview(currentReview + 1); startReviewAutoplay(); }
-});
-
-renderReviews();
-
-// Hover cursor for review nav buttons and map cities
-document.querySelectorAll('.review-btn, .review-dots button, .imap-btn, .imap-close').forEach(el => {
-  el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
-  el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
-});
