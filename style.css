@@ -1,4 +1,4 @@
-:root{
+  :root{
     --ink:#2b2d2e;
     --muted:#7a7d7e;
     --line:rgba(0,0,0,0.1);
@@ -359,62 +359,39 @@
     padding: 4px 12px;
   }
 }
-  /* ===== Interactive Image Map ===== */
-  .geo-card{padding:24px 24px 20px;overflow:hidden}
-  .imap-wrap{position:relative;width:100%;overflow:hidden;border-radius:14px;aspect-ratio:1296/1000}
-  .imap-image{display:block;width:100%;height:100%;object-fit:cover}
 
-  .imap-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-  .imap-route{fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:9 9;opacity:.9;animation:imap-dash 1.8s linear infinite;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
-  @keyframes imap-dash{to{stroke-dashoffset:-36}}
-
-  .imap-btn{position:absolute;transform:translate(-50%,-50%);width:48px;height:48px;border:0;border-radius:50%;background:transparent;cursor:pointer;z-index:4}
-  .imap-btn::after{content:"";position:absolute;inset:5px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 5px rgba(63,141,232,.35);background:rgba(30,116,210,.15);transition:box-shadow 0.3s}
-  .imap-btn:hover::after{box-shadow:0 0 0 7px rgba(63,141,232,.45)}
-  .imap-btn.active::before{content:"";position:absolute;inset:-9px;border:2px solid rgba(80,171,255,.7);border-radius:50%;animation:imap-pulse 1.5s ease-out infinite}
-  @keyframes imap-pulse{0%{transform:scale(.7);opacity:.9}70%{transform:scale(1.35);opacity:.15}100%{transform:scale(1.45);opacity:0}}
-
-  .imap-karelia{left:32.5%;top:25.0%}
-  .imap-spb{left:23.4%;top:32.6%}
-  .imap-tver{left:31.1%;top:41.5%}
-  .imap-moscow{left:42.0%;top:48.0%;width:64px;height:64px}
-
-  .imap-info{position:absolute;left:6%;right:6%;bottom:3%;display:flex;align-items:center;gap:20px;padding:18px 22px;border-radius:18px;background:rgba(19,45,91,.94);border:1px solid rgba(255,255,255,.15);box-shadow:0 18px 50px rgba(15,35,75,.3);color:#fff;z-index:5;transition:opacity .25s,transform .25s}
-  .imap-info.hidden{opacity:0;transform:translateY(25px);pointer-events:none}
-  .imap-info-body{flex:1}
-  .imap-info h3{margin:0 0 6px;font-size:22px;font-weight:700;color:#fff}
-  .imap-info p{margin:0;font-size:14px;line-height:1.6;color:rgba(232,238,249,.9);max-width:600px}
-  .imap-close{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.3);color:#fff;background:transparent;font-size:20px;cursor:pointer;flex-shrink:0;transition:background 0.3s}
-  .imap-close:hover{background:rgba(255,255,255,.1)}
-  .imap-dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
-  .imap-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:all 0.3s}
-  .imap-dots span.active{background:#fff;width:20px;border-radius:4px}
-
-  @media(max-width:800px){
-    .geo-card{padding:16px 12px 14px}
-    .imap-info{left:3%;right:3%;gap:12px;padding:12px 14px;border-radius:14px}
-    .imap-info h3{font-size:17px}
-    .imap-info p{font-size:12px;line-height:1.4}
-    .imap-btn{width:36px;height:36px}
-    .imap-moscow{width:48px;height:48px}
-  }
-
-  /* ===== Reviews Slider ===== */
-  .reviews-slider{overflow:hidden;position:relative;margin-bottom:20px}
-  .review-track{display:flex;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
-  .review-item{min-width:100%;padding:20px;box-sizing:border-box}
-  .review-content{background:var(--card);border-radius:16px;padding:32px;position:relative;max-width:680px;margin:0 auto}
-  .review-content::before{content:'\201C';position:absolute;top:8px;left:20px;font-family:Georgia,serif;font-size:80px;line-height:1;color:var(--accent);opacity:0.15;pointer-events:none}
-  .review-text{font-size:16px;line-height:1.8;color:var(--ink);margin-bottom:20px;position:relative;z-index:1;font-style:italic}
-  .review-author{display:flex;align-items:center;gap:14px}
-  .review-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;flex-shrink:0}
-  .review-meta .review-name{font-size:14px;font-weight:700;color:var(--ink)}
-  .review-meta .review-role{font-size:12px;color:var(--muted);margin-top:2px}
-  .review-stars{display:flex;gap:2px;margin-bottom:12px}
-  .review-stars i{color:var(--accent-2);font-size:16px}
-  .review-nav{display:flex;align-items:center;justify-content:center;gap:16px}
-  .review-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s ease;font-size:18px}
-  .review-btn:hover{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
-  .review-dots{display:flex;gap:8px}
-  .review-dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);cursor:pointer;transition:all 0.3s ease;padding:0}
-  .review-dots button.active{background:var(--accent);width:24px;border-radius:4px}
+/* ===== Интерактивная карта ===== */
+.map-card{padding:32px;overflow:hidden}
+.map-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:18px}
+.map-title{margin:-6px 0 6px;font-size:28px;line-height:1.15;color:var(--ink)}
+.map-subtitle{margin:0;color:var(--muted);font-size:13px;line-height:1.5;max-width:540px}
+.map-legend{font-size:11px;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:7px}
+.map-legend span{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 14%,transparent)}
+.interactive-map{position:relative;isolation:isolate;overflow:hidden;border-radius:18px;background:#f7faf8;aspect-ratio:1200/650;min-height:520px;border:1px solid rgba(22,59,50,.08)}
+.russia-map{position:absolute;inset:0;width:100%;height:100%;display:block}
+.russia-map .map-meridians{stroke:rgba(37,99,86,.08);stroke-width:1}
+.russia-map .russia-shape{fill:#eef4f0;stroke:#2c806b;stroke-width:2.2;stroke-linejoin:round}
+.russia-map .map-regions{fill:none;stroke:rgba(37,99,86,.10);stroke-width:1.2;stroke-linecap:round}
+.russia-map .map-routes{fill:none;stroke:#176653;stroke-width:2.5;stroke-dasharray:7 8;stroke-linecap:round;animation:mapDash 2s linear infinite}
+.russia-map .map-coords{fill:#718078;font-size:12px;letter-spacing:.04em}
+.russia-map .svg-city{cursor:pointer;outline:none}
+.russia-map .city-ring{fill:#fff;stroke:#1f735f;stroke-width:4;transition:all .25s ease}
+.russia-map .city-dot{fill:#1f735f;transition:all .25s ease}
+.russia-map .city-label rect{fill:rgba(255,255,255,.96);stroke:rgba(22,59,50,.10);filter:drop-shadow(0 6px 12px rgba(22,59,50,.10));transition:all .25s ease}
+.russia-map .city-label text{fill:#163b32;font:700 16px Inter,Arial,sans-serif}
+.russia-map .city-label .sub{fill:#718078;font:500 12px Inter,Arial,sans-serif}
+.russia-map .svg-city:hover .city-ring,.russia-map .svg-city:focus .city-ring{transform-box:fill-box;transform-origin:center;transform:scale(1.15)}
+.russia-map .svg-city:hover .city-dot,.russia-map .svg-city:focus .city-dot{transform-box:fill-box;transform-origin:center;transform:scale(1.15)}
+.russia-map .svg-city.active .city-ring{animation:mapPulseSvg 1.6s ease-out infinite;stroke:#176653}
+.russia-map .svg-city.active .city-dot{fill:#176653}
+.russia-map .city-moscow-svg .city-ring{r:25;stroke-width:5}
+.russia-map .city-moscow-svg .city-dot{r:11;fill:var(--accent)}
+.russia-map .city-moscow-svg.active .city-ring{animation:mapPulseMoscow 1.6s ease-out infinite}
+@keyframes mapDash{to{stroke-dashoffset:-30}}
+@keyframes mapPulseSvg{0%{stroke-opacity:1;stroke-width:4}70%{stroke-opacity:.2;stroke-width:9}100%{stroke-opacity:0;stroke-width:9}}
+@keyframes mapPulseMoscow{0%{stroke-opacity:1;stroke-width:5}70%{stroke-opacity:.15;stroke-width:11}100%{stroke-opacity:0;stroke-width:11}}
+.map-info{position:absolute;z-index:4;left:24px;right:24px;bottom:24px;display:flex;justify-content:space-between;gap:18px;padding:18px 20px;border-radius:14px;background:rgba(21,35,31,.90);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;box-shadow:0 16px 40px rgba(0,0,0,.16);transition:opacity .25s ease,transform .25s ease}
+.map-info.is-hidden{opacity:0;transform:translateY(16px);pointer-events:none}
+.map-info-copy{min-width:0}.map-info-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.65}.map-info h3{margin:4px 0 4px;font-size:21px}.map-info p{margin:0;color:rgba(255,255,255,.78);font-size:12px;line-height:1.5;max-width:700px}
+.map-info-close{width:30px;height:30px;flex:0 0 30px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:transparent;color:#fff;font-size:19px;line-height:1;cursor:pointer}
+@media (max-width:768px){.map-card{padding:22px 16px}.map-head{align-items:flex-start}.map-title{font-size:22px}.map-legend{display:none}.interactive-map{aspect-ratio:4/3;min-height:0}.russia-map .map-coords{font-size:9px}.russia-map .city-label text{font-size:12px}.russia-map .city-label .sub{font-size:9px}.map-info{left:12px;right:12px;bottom:12px;padding:13px 14px}.map-info h3{font-size:18px}.map-info p{font-size:11px}}
