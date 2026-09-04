@@ -339,38 +339,41 @@ const mapCities = {
 };
 const mapRoot = document.getElementById('interactive-map');
 if (mapRoot) {
+  const mapSvg = document.getElementById('russia-map-svg');
+  const viewport = document.getElementById('map-viewport');
   const mapInfo = document.getElementById('map-info');
   const mapKicker = document.getElementById('map-info-kicker');
   const mapTitle = document.getElementById('map-info-title');
   const mapText = document.getElementById('map-info-text');
   const mapClose = document.getElementById('map-info-close');
-  const mapButtons = mapRoot.querySelectorAll('.svg-city');
-
-  function selectMapCity(key) {
-    const city = mapCities[key];
-    if (!city) return;
-    mapButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.mapCity === key));
-    mapInfo.classList.add('is-hidden');
-    setTimeout(() => {
-      mapKicker.textContent = city.kicker;
-      mapTitle.textContent = city.title;
-      mapText.textContent = city.text;
-      mapInfo.classList.remove('is-hidden');
-    }, 120);
+  const mapButtons = [...mapRoot.querySelectorAll('.svg-city')];
+  const routes = [...mapRoot.querySelectorAll('.map-routes path')];
+  const zoomButtons = [...mapRoot.querySelectorAll('[data-map-zoom]')];
+  let scale = 1, tx = 0, ty = 0, dragging = false, moved = false, sx = 0, sy = 0, stx = 0, sty = 0;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  function renderTransform(){ viewport.setAttribute('transform',`translate(${tx} ${ty}) scale(${scale})`); }
+  function setZoom(next, cx=600, cy=305){
+    const ns=clamp(next,.92,1.8); const k=ns/scale;
+    tx=cx-(cx-tx)*k; ty=cy-(cy-ty)*k; scale=ns; renderTransform();
   }
-
-  mapButtons.forEach(btn => {
-    btn.addEventListener('click', () => selectMapCity(btn.dataset.mapCity));
-    btn.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        selectMapCity(btn.dataset.mapCity);
-      }
-    });
+  function resetMap(){scale=1;tx=0;ty=0;renderTransform();}
+  function selectMapCity(key){
+    const city=mapCities[key]; if(!city) return;
+    mapButtons.forEach(btn=>btn.classList.toggle('active',btn.dataset.mapCity===key));
+    routes.forEach(r=>r.classList.toggle('is-active',r.dataset.route?.includes(key) || (key==='moscow' && r.dataset.route?.includes('moscow'))));
+    mapKicker.textContent=city.kicker; mapTitle.textContent=city.title; mapText.textContent=city.text;
+    mapInfo.classList.remove('is-hidden');
+  }
+  mapButtons.forEach(btn=>{
+    btn.addEventListener('click',()=>selectMapCity(btn.dataset.mapCity));
+    btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectMapCity(btn.dataset.mapCity)}});
   });
-  mapClose.addEventListener('click', () => {
-    mapInfo.classList.add('is-hidden');
-    mapButtons.forEach(btn => btn.classList.remove('active'));
-  });
-  selectMapCity('moscow');
+  mapClose.addEventListener('click',()=>{mapInfo.classList.add('is-hidden');mapButtons.forEach(b=>b.classList.remove('active'));routes.forEach(r=>r.classList.remove('is-active'));});
+  zoomButtons.forEach(btn=>btn.addEventListener('click',()=>{const z=btn.dataset.mapZoom;if(z==='in')setZoom(scale+.14);else if(z==='out')setZoom(scale-.14);else resetMap();}));
+  mapSvg.addEventListener('wheel',e=>{e.preventDefault();const r=mapSvg.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*1200,y=(e.clientY-r.top)/r.height*610;setZoom(scale+(e.deltaY<0?.12:-.12),x,y);},{passive:false});
+  mapSvg.addEventListener('pointerdown',e=>{if(e.target.closest('.svg-city')) return; dragging=true;moved=false;sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;mapSvg.classList.add('is-dragging');mapSvg.setPointerCapture?.(e.pointerId);});
+  mapSvg.addEventListener('pointermove',e=>{if(!dragging)return;const r=mapSvg.getBoundingClientRect();tx=stx+(e.clientX-sx)/r.width*1200;ty=sty+(e.clientY-sy)/r.height*610;moved=true;renderTransform();});
+  mapSvg.addEventListener('pointerup',e=>{dragging=false;mapSvg.classList.remove('is-dragging');try{mapSvg.releasePointerCapture?.(e.pointerId)}catch(_){}});
+  mapSvg.addEventListener('pointercancel',()=>{dragging=false;mapSvg.classList.remove('is-dragging')});
+  renderTransform();
 }
