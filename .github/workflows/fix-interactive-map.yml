@@ -1,50 +1,45 @@
-name: Fix interactive map
+name: Remove Russia map
 on:
   push:
     branches: [main]
 permissions:
   contents: write
 jobs:
-  fix:
+  remove-map:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fix map markup and styling
+      - name: Remove map section
         shell: python
         run: |
           from pathlib import Path
-          import subprocess
-          p=Path('index.html')
-          s=p.read_text(encoding='utf-8')
-          s=s.replace('>+</g>','>+</button>').replace('>−</g>','>−</button>').replace('>↺</g>','>↺</button>')
-          s=s.replace('<button class="map-info-close" id="map-info-close" aria-label="Закрыть">×</g>','<button class="map-info-close" id="map-info-close" aria-label="Закрыть">×</button>')
-          s=s.replace('transform="translate(328.3 136.5)"','transform="translate(315 118)"')
-          s=s.replace('transform="translate(294.7 127.2)"','transform="translate(62 154)"')
-          s=s.replace('transform="translate(280.9 180.3)"','transform="translate(278 214)"')
-          s=s.replace('transform="translate(276.2 198.5)"','transform="translate(278 268)"')
-          p.write_text(s,encoding='utf-8')
-          p=Path('style.css')
-          s=p.read_text(encoding='utf-8')
-          marker='/* --- Map polish overrides --- */'
-          css='''
-/* --- Map polish overrides --- */
-.interactive-map{background:linear-gradient(180deg,#fbfcfb 0%,#f4f8f6 100%);min-height:0;aspect-ratio:1200/610;}
-.russia-map .russia-shape{fill:#e9efec;stroke:#2b6558;stroke-width:2.1;}
-.map-hint{top:auto;left:18px;bottom:16px;font-size:10px;opacity:.78;}
-.map-toolbar{top:16px;right:16px;}
-.city-tooltip{opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .18s ease,transform .18s ease,visibility .18s ease;}
-.svg-city:hover .city-tooltip,.svg-city:focus-visible .city-tooltip,.svg-city.active .city-tooltip{opacity:1;visibility:visible;transform:none;}
-.city-tooltip rect{fill:rgba(255,255,255,.98);stroke:rgba(22,59,50,.10);stroke-width:1;}
-.city-tooltip text{font-size:13px;}
-.city-tooltip .sub{font-size:10px;}
-.map-info{left:auto;right:18px;bottom:18px;width:min(340px,calc(100% - 36px));padding:15px 16px;}
-.map-info h3{font-size:19px;}
-.map-info p{font-size:11px;}
-@media(max-width:768px){.interactive-map{aspect-ratio:4/3}.map-info{right:12px;left:12px;width:auto}.map-hint{display:none}}
-'''
-          if marker not in s: p.write_text(s+css,encoding='utf-8')
-          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
-          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
-          subprocess.run(['git','add','index.html','style.css'],check=True)
-          subprocess.run(['git','commit','-m','Polish interactive Russia map'],check=False)
-          subprocess.run(['git','push'],check=True)
+          import re, subprocess
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Remove the complete section containing the interactive map.
+          patterns = [
+              r'<section(?=[^>]*class=["\'][^"\']*(?:interactive-map|map-section|russia-map)[^"\']*["\'])[^>]*>[\s\S]*?</section>',
+              r'<div(?=[^>]*class=["\'][^"\']*(?:interactive-map|map-section)[^"\']*["\'])[^>]*>[\s\S]*?</div>'
+          ]
+          old = s
+          for pattern in patterns:
+              s = re.sub(pattern, '', s, count=1, flags=re.I)
+          if s != old:
+              p.write_text(s, encoding='utf-8')
+
+          # Safety fallback: hide any remaining map wrapper without affecting other content.
+          css = Path('style.css')
+          c = css.read_text(encoding='utf-8')
+          marker = '/* Map removed intentionally */'
+          if marker not in c:
+              c += '\n\n' + marker + '\n.interactive-map, section:has(.interactive-map), .map-section, .russia-map { display:none !important; }\n'
+              css.write_text(c, encoding='utf-8')
+
+          subprocess.run(['git','config','user.name','github-actions[bot]'], check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'], check=True)
+          subprocess.run(['git','add','index.html','style.css'], check=True)
+          if subprocess.run(['git','diff','--cached','--quiet']).returncode != 0:
+              subprocess.run(['git','commit','-m','Remove Russia map section'], check=True)
+              subprocess.run(['git','push'], check=True)
